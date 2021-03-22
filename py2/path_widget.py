@@ -43,7 +43,7 @@ class PathWidget(QtWidgets.QWidget):
     def _get_save_file(self):
         if not self.dialog_label:
             self.dialog_label = "Select save file"
-        path = QtWidgets.QFileDialog.getSaveFileName(None, self.dialog_label, self.line_edit.text())
+        path, filters = QtWidgets.QFileDialog.getSaveFileName(None, self.dialog_label, self.line_edit.text())
         if path:
             self.line_edit.setText(path)
 
