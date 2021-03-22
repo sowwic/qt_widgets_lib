@@ -4,12 +4,14 @@ from PySide2 import QtGui
 
 class PathWidget(QtWidgets.QWidget):
 
-    def __init__(self, parent=None, mode="dir", default_path="", label_text="", dialog_label=""):
+    def __init__(self, parent=None, mode="dir", default_path="", label_text="", dialog_label="", file_filters="All Files (*.*)", selected_filter="All Files (*.*)"):
         super(PathWidget, self).__init__(parent)
         self.mode = mode
         self.default_path = default_path
         self.label_text = label_text
         self.dialog_label = dialog_label
+        self.file_filters = file_filters
+        self.selected_filter = selected_filter
 
         self._create_widgets()
         self._create_layouts()
@@ -43,14 +45,14 @@ class PathWidget(QtWidgets.QWidget):
     def _get_save_file(self):
         if not self.dialog_label:
             self.dialog_label = "Select save file"
-        path, filters = QtWidgets.QFileDialog.getSaveFileName(None, self.dialog_label, self.line_edit.text())
+        path, filters = QtWidgets.QFileDialog.getSaveFileName(None, self.dialog_label, self.line_edit.text(), self.file_filters, self.selected_filter)
         if path:
             self.line_edit.setText(path)
 
     def _get_existing_file(self):
         if not self.dialog_label:
             self.dialog_label = "Select existing file"
-        path, extra = QtWidgets.QFileDialog.getOpenFileName(None, self.dialog_label, self.line_edit.text())
+        path, extra = QtWidgets.QFileDialog.getOpenFileName(None, self.dialog_label, self.line_edit.text(), self.file_filters, self.selected_filter)
         if path:
             self.line_edit.setText(path)
 
