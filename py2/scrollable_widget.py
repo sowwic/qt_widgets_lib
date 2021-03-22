@@ -15,7 +15,8 @@ class ScrollWidget(QtWidgets.QWidget):
         self.content.setLayout(self.content_layout)
         self.setLayout(QtWidgets.QVBoxLayout())
         self.layout().addWidget(self.scroll_area)
-        self.layout().setContentsMargins(0, 0, 0, 0)
+        # self.layout().setContentsMargins(0, 0, 0, 0)
+        self.content_layout.setContentsMargins(0, 0, 0, 0)
 
         if not border:
             self.scroll_area.setFrameShape(QtWidgets.QFrame.NoFrame)
@@ -25,6 +26,9 @@ class ScrollWidget(QtWidgets.QWidget):
 
     def add_layout(self, layout):
         self.content_layout.addLayout(layout)
+
+    def add_stretch(self):
+        self.content_layout.addStretch()
 
     def resizeEvent(self, e):
         self.scroll_area.resizeEvent(e)
