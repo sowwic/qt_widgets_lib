@@ -141,6 +141,9 @@ class SliderFieldWidget(QtWidgets.QWidget):
     def value(self):
         return self.get_value()
 
+    def set_value(self, value):
+        self.spin_box.setValue(value)
+
     def get_value(self):
         return self.spin_box.value()
 
@@ -165,13 +168,13 @@ class SliderFieldWidget(QtWidgets.QWidget):
         self.setLayout(self.main_layout)
 
     def create_connections(self):
-        self.spin_box.valueChanged.connect(self.set_slider_value)
-        self.slider.valueChanged.connect(self.set_field_value)
+        self.spin_box.valueChanged.connect(self._update_slider_value)
+        self.slider.valueChanged.connect(self._update_field_value)
 
     @QtCore.Slot()
-    def set_field_value(self, value):
+    def _update_field_value(self, value):
         self.spin_box.setValue(value / self.slide_multiplier)
 
     @QtCore.Slot()
-    def set_slider_value(self, value):
+    def _update_slider_value(self, value):
         self.slider.setValue(value * self.slide_multiplier)
