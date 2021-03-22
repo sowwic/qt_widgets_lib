@@ -17,6 +17,10 @@ class PathWidget(QtWidgets.QWidget):
         self._create_layouts()
         self._create_connections()
 
+    @property
+    def path(self):
+        return self.line_edit.text()
+
     def _create_widgets(self):
         self.label = QtWidgets.QLabel(self.label_text)
         self.line_edit = QtWidgets.QLineEdit(self.default_path)
@@ -32,15 +36,18 @@ class PathWidget(QtWidgets.QWidget):
         self.main_layout.addWidget(self.browse_button)
 
     def _create_connections(self):
-        self.browse_button.clicked.connect(self.get_path)
+        self.browse_button.clicked.connect(self.browse_path)
 
-    def get_path(self):
+    def browse_path(self):
         if self.mode == "dir":
             self._get_existing_dir()
         elif self.mode == "file":
             self._get_existing_file()
         elif self.mode == "save_file":
             self._get_save_file()
+
+    def set_path(self, text):
+        self.line_edit.setText(text)
 
     def _get_save_file(self):
         if not self.dialog_label:
