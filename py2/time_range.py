@@ -2,8 +2,9 @@ from PySide2 import QtWidgets
 
 
 class TimeRangeWidget(QtWidgets.QGroupBox):
-    def __init__(self, parent=None, title="Time", mode=0, start_time=0, end_time=120, max_time=9999, min_time=-9999):
+    def __init__(self, parent=None, title="Time", mode=0, start_time=0, end_time=120, max_time=9999, min_time=-9999, range_func=None):
         super(TimeRangeWidget, self).__init__(title, parent)
+        self._range_func = range_func
 
         # Widgets
         self.timeslider_radio = QtWidgets.QRadioButton("Time slider")
@@ -45,3 +46,22 @@ class TimeRangeWidget(QtWidgets.QGroupBox):
 
         # Connections
         self.startend_radio.toggled.connect(self.set_spinboxes_enabled)
+
+    def showEvent(self, event):
+        try:
+            super(TimeRangeWidget, self).showEvent(event)
+        except TypeError:
+            pass
+        self.set_spinboxes_enabled(self.startend_radio.isChecked())
+
+    def set_spinboxes_enabled(self, state):
+        for wgt in [self.start_label, self.start_time, self.end_label, self.end_time]:
+            wgt.setEnabled(state)
+
+    def get_range(self):
+        if self.startend_radio.isChecked():
+            return self.start_time.value(), self.end_time.value()
+        elif self._range_func:
+            return self._range_func()
+        else:
+            return (0, 120)
