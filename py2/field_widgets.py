@@ -138,6 +138,13 @@ class SliderFieldWidget(QtWidgets.QWidget):
         self._step = value
         self.spin_box.setSingleStep(value)
 
+    @property
+    def value(self):
+        return self.get_value()
+
+    def get_value(self):
+        return self.spin_box.value()
+
     def create_widgets(self):
         if self.data_type == "float":
             self.spin_box = QtWidgets.QDoubleSpinBox()
